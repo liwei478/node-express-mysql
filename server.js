@@ -1,6 +1,8 @@
 import express from "express";
 import cors from 'cors'
 
+import appRouter from './app/routes/router.js'
+
 const app = express()
 
 const corsOptions = {
@@ -15,9 +17,10 @@ app.use(cors(corsOptions))
 app.use(express.json())
 
 //simple route
-app.get('/', (req, res) => {
-  res.json({message: 'Welcome t bezkoder application.'})
-})
+// app.get('/', (req, res) => {
+//   res.json({message: 'Welcome t bezkoder application.'})
+// })
+appRouter(app)
 
 // set port, listen for requests
 const PORT = process.env.PORT | 8080
