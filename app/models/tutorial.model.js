@@ -121,3 +121,5 @@ Tutorial.removeAll = result => {
     result(null, res)
   })
 }
+
+export default Tutorial
