@@ -1,4 +1,4 @@
-import sql from './db'
+import sql from './db.js'
 
 const Tutorial = function(tutorial) {
   this.title = tutorial.title
@@ -72,14 +72,15 @@ Tutorial.getAllPulished = result => {
 }
 
 Tutorial.updateById = (id, tutorial, result) => {
-  sql.query('UPDATE tutorials SET title = ?, description = ?, published = ? WHERE id = ?'), [tutorial.title, tutorial.description, tutorial.published, id], (err, res) => {
+  sql.query(
+    'UPDATE tutorials SET title = ?, description = ?, published = ? WHERE id = ? ', [tutorial.title, tutorial.description, tutorial.published, id], (err, res) => {
       if (err) {
       console.log('error: ', err)
       result(null, err)
       return
     }
 
-    if (res.affectedRows === 0) {
+    if (res.affectedRows == 0) {
       // not found Tutorial with the id
       result({kind: 'not_found'}, null)
       return
@@ -87,7 +88,7 @@ Tutorial.updateById = (id, tutorial, result) => {
 
     console.log('updated tutorial: ', {id, ...tutorial})
     result(null, {id, ...tutorial})
-  }
+  })
 }
 
 Tutorial.remove = (id, result) => {

@@ -1,5 +1,5 @@
 import express from "express";
-import tutorials from "../controllers/tutorial.controller";
+import * as tutorials from "../controllers/tutorial.controller.js";
 
 const app = express()
 
@@ -12,7 +12,7 @@ router.post('/', tutorials.create)
 router.get('/', tutorials.findAll)
 
 // Retrieve all published Tutorials
-router.get('/published', tutorials.findAllPulished)
+router.get('/published', tutorials.findAllPublished)
 
 // Retrieve a single Tutorial with id
 router.get('/:id', tutorials.findOne)
@@ -24,7 +24,7 @@ router.put('/:id', tutorials.update)
 router.delete('/:id', tutorials.deleteById)
 
 // Delete all Tutorials
-router.delete('/:id', tutorials.deleteAll)
+router.delete('/', tutorials.deleteAll)
 
 
 export default app => {

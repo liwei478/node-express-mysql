@@ -1,4 +1,4 @@
-import Tutorial from '../models/tutorial.model'
+import Tutorial from '../models/tutorial.model.js'
 
 // Create and Save a new Tutorial
 const create = (req, res) => {
@@ -32,7 +32,7 @@ const create = (req, res) => {
 const findAll = (req, res) => {
   const title = req.body.title
 
-  Tutorial.getAll(title, (err, res) => {
+  Tutorial.getAll(title, (err, data) => {
     if (err) res.status(500).send({
       message: err.message || 'Some error occured while retrieving tutorials.'
     }) 
@@ -71,7 +71,7 @@ const findAllPublished = (req, res) => {
 }
 
 // Update a Tutorial identified by the id in the request
-const udpate = (req, res) => {
+const update = (req, res) => {
   // Validate Request
   if (!req.body) {
     res.status(400).send({
@@ -101,19 +101,21 @@ const udpate = (req, res) => {
 
 // Delete a Tutorial with the specified id in the request
 const deleteById = (req, res) => {
-  if (err) {
-    if (err.kind === 'not_found') {
-      res.status(404).send({
-        message: `Not found Tutorial with id ${req.params.id}.`
-      })
+  Tutorial.remove(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === 'not_found') {
+        res.status(404).send({
+          message: `Not found Tutorial with id ${req.params.id}.`
+        })
+      } else {
+        res.status(500).send({
+          message: `Could not delete Tutorial with id ${req.params.id}`
+        })
+      }
     } else {
-      res.status(500).send({
-        message: `Could not delete Tutorial with id ${req.params.id}`
-      })
+      res.send({message: `Tutorial was deleted successfully!`})
     }
-  } else {
-    res.send({message: `Tutorial was deleted successfully!`})
-  }
+  })
 }
 
 // Delete all Tutorials from the database.
@@ -129,4 +131,4 @@ const deleteAll = (req, res) => {
   })
 }
 
-export {create, findAll, findOne, findAllPublished, udpate, deleteById, deleteAll }
+export {create, findAll, findOne, findAllPublished, update, deleteById, deleteAll }
